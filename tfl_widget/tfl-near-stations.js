@@ -2,30 +2,30 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: subway;
 
-// CONFIGURATION VARIABLES //////////////////////
+////////////////////// CONFIGURATION VARIABLES //////////////////////
 const app_key = "API-TOKEN-HERE";
 const stop_modes = ["tube", "elizabeth-line", "dlr"]; // StopPoint Modes: ["bus", "cable-car", "coach", "cycle", "cycle-hire", "dlr", "elizabeth-line", "interchange-keep-sitting", "interchange-secure", "national-rail", "overground", "replacement-bus", "river-bus", "river-tour", "taxi", "tram", "tube", "walking"]
-const radius = 1000; // Radius in meteres from origin
+const radius = 1000; // Radius in meters from current location
 
-// DEBUG VARIABLES //////////////////////
+////////////////////// DEBUG VARIABLES //////////////////////
 const wSize = config.widgetFamily || "medium"; // Set widget size for debug ["small", "medium", "large"]
 let wTheme = "system"; // Set the theme for debug ["system", "light", "dark"]
 
-// CONFIGURATION DEFINITIONS //////////////////////
+////////////////////// CONFIGURATION DEFINITIONS //////////////////////
 class Configuration {
     fileManagerMode = 'ICLOUD'; // default is ICLOUD. If you don't use iCloud Drive use option LOCAL
-    // logo is downloaded only the first time! It is saved in iCloud and then loaded from there everytime afterwards
+    // Logo is downloaded only the first time. It is saved in iCloud and then loaded from there everytime afterwards
     logoUrlLight = 'https://github.com/Kaputt4/scriptable_widgets/blob/main/tfl_widget/tfl-logo-light.png?raw=true';
     logoUrlDark = 'https://github.com/Kaputt4/scriptable_widgets/blob/main/tfl_widget/tfl-logo-dark.png?raw=true';
     tflLogoFileNameLight = Device.model() + 'tflLogoLight.png';
     tflLogoFileNameDark = Device.model() + 'tflLogoDark.png';
-    requestTimeoutInterval = 4; // in seconds; If requests take longer, the script is stopped. Increase it if it doesn't work or you
+    requestTimeoutInterval = 4; // Timeout in seconds. If requests take longer, the script is stopped. Increase it if it doesn't work for you
     api_endpoint = "https://api.tfl.gov.uk"
     station_limit = 2; // Required for limiting view, for avoiding visualization issues
     defaultLocation = { latitude: 51.5080982, longitude: - 0.1282673 };
 }
 
-// WIDGET BEGGINING //////////////////////
+////////////////////// WIDGET BEGGINING //////////////////////
 
 let wBackground = new LinearGradient()
 let errColor, wColor, tflColor;
@@ -54,7 +54,7 @@ async function createWidget() {
     let w = new ListWidget()
     w.backgroundGradient = wBackground
 
-    // LOGO AND HEADER //////////////////////
+    ////////////////////// LOGO AND HEADER //////////////////////
     let titleStack = w.addStack();
     // titleStack.size = new Size(maxLineWidth, normalLineHeight);
     const logo = await getTFLLogo(fm);
@@ -65,9 +65,9 @@ async function createWidget() {
     headerText.font = Font.blackSystemFont(15)
     headerText.textColor = tflColor
     headerText.centerAlignText()
-    // LOGO AND HEADER END //////////////////////
+    ////////////////////// LOGO AND HEADER END //////////////////////
 
-    // ERROR HANDLER //////////////////////
+    ////////////////////// ERROR HANDLER //////////////////////
     if (tflDataStations == null) {
         w.addSpacer();
         let nullDataText = w.addText("Error fetching data. Please check your internet connection.")
@@ -97,9 +97,9 @@ async function createWidget() {
         w.addSpacer()
         return w
     }
-    // ERROR HANDLER END //////////////////////
+    ////////////////////// ERROR HANDLER END //////////////////////
 
-    // WIDGET BUILD //////////////////////
+    ////////////////////// WIDGET BUILD //////////////////////
     let linesCount = 0
     for (var i = 0; i < Math.min(tflDataStations["stopPoints"].length, CONFIGURATION.station_limit) && linesCount < 6; i++) { // Iterate through stations
         w.addSpacer();
