@@ -1,8 +1,13 @@
 name: "CodeQL"
 
 on:
-  push: {}
-  pull_request: {}
+  push:
+    branches:
+      - main
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+  
 
 jobs:
   analyze:
